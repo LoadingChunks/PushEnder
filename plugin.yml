@@ -1,0 +1,4 @@
+name: PushEnder
+main: net.loadingchunks.plugins.PushEnder.PushEnder
+version: 0.1
+commands:
