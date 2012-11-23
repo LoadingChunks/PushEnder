@@ -58,8 +58,8 @@ public class EventListener implements Listener {
     		if (bossEntities.get(i).equals(event.getEntityType().getTypeId())) {
     			if (killer != null)
     				mMessageSender.SendMessages("Boss killed", "The " + event.getEntityType().getName() + " was killed by " + ChatColor.stripColor(event.getEntity().getKiller().getDisplayName()) + "!");
-    			else
-    				mMessageSender.SendMessages("Boss killed", "The " + event.getEntityType().getName() + " was killed!");
+//    			else
+//    				mMessageSender.SendMessages("Boss killed", "The " + event.getEntityType().getName() + " was killed!");
     		}
     	}
     }
