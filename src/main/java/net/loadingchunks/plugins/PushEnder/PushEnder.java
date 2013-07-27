@@ -1,14 +1,14 @@
 package net.loadingchunks.plugins.PushEnder;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PushEnder extends JavaPlugin {
+	
+	private final PushEnderCommandExecutor commandExecutor = new PushEnderCommandExecutor(this);
     
 	public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
@@ -30,6 +30,8 @@ public class PushEnder extends JavaPlugin {
 
 		Pushover messageSender = new Pushover(this);
         getServer().getPluginManager().registerEvents(new PushEnderEventListener(this, messageSender), this);
+        
+		getCommand("pushender").setExecutor(commandExecutor);
 	}
 
     public void onDisable() {

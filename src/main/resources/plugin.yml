@@ -1,4 +1,7 @@
 name: PushEnder
 main: net.loadingchunks.plugins.PushEnder.PushEnder
-version: 0.1
+version: 0.2
 commands:
+   pushender:
+      description: Manage PushEnder
+      usage: /pushender reload
