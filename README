@@ -1,1 +1,6 @@
-Because GitHub told me to
+PushEnder
+=========
+
+
+PushEnder is a Bukkit plugin that reports verious events via Pushover instant notifications.
+It was written primarily for use on the LoadingChunks server.
