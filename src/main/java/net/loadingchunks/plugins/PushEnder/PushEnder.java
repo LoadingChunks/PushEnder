@@ -1,6 +1,7 @@
 package net.loadingchunks.plugins.PushEnder;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -8,28 +9,18 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PushEnder extends JavaPlugin {
-
-	private FileConfiguration config;
     
 	public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
         getLogger().info("Loading " + pdfFile.getName() + " version " + pdfFile.getVersion() + "..." );
 		getLogger().info("Loading config..");
-		try {
-			config = getConfig();
-			File config_file = new File("plugins" + File.separator + "<variable>" + File.separator + "config.yml");
-			config_file.mkdir();
-			if (!config.contains("pushover.apptoken")) {
-			    config.set("pushover.apptoken", "");
-			}
-			if (!config.contains("pushover.usertokens")) {
-			    config.set("pushover.usertokens", new String[0]);
-			}
-			saveConfig();
-		}
-		catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		
+		getConfig().addDefault("pushover.apptoken", "");
+		getConfig().addDefault("pushover.usertokens", new ArrayList<String>());
+		getConfig().options().copyDefaults(true);
+		
+		saveConfig();
+
 		Pushover messageSender = new Pushover(this);
         getServer().getPluginManager().registerEvents(new EventListener(messageSender), this);
 	}
@@ -39,10 +30,10 @@ public class PushEnder extends JavaPlugin {
     }
     
     public String getAppToken() {
-    	return config.getString("pushover.apptoken");
+    	return getConfig().getString("pushover.apptoken");
     }
     
     public List<String> getUserTokens() {
-    	return config.getStringList("pushover.usertokens");
+    	return getConfig().getStringList("pushover.usertokens");
     }
 }
