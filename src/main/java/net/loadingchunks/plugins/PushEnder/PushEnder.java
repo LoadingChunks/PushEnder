@@ -13,16 +13,23 @@ public class PushEnder extends JavaPlugin {
 	public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
         getLogger().info("Loading " + pdfFile.getName() + " version " + pdfFile.getVersion() + "..." );
-		getLogger().info("Loading config..");
 		
 		getConfig().addDefault("pushover.apptoken", "");
 		getConfig().addDefault("pushover.usertokens", new ArrayList<String>());
+		getConfig().addDefault("events.witherKill", true);
+		getConfig().addDefault("events.dragonKill", true);
+		getConfig().addDefault("events.join", false);
+		getConfig().addDefault("events.quit", false);
+		getConfig().addDefault("events.ban", true);
+		getConfig().addDefault("events.kick", true);
+		getConfig().addDefault("events.callAdmin", true); // Coming Soon :V
+		
 		getConfig().options().copyDefaults(true);
 		
 		saveConfig();
 
 		Pushover messageSender = new Pushover(this);
-        getServer().getPluginManager().registerEvents(new EventListener(messageSender), this);
+        getServer().getPluginManager().registerEvents(new PushEnderEventListener(this, messageSender), this);
 	}
 
     public void onDisable() {

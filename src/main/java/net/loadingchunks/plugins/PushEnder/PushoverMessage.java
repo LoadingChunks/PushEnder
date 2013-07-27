@@ -15,8 +15,6 @@ public class PushoverMessage {
 	private String _UrlTitle;
 	private Integer _Priority;
 	private Integer _TimeStamp;
-
-	private boolean _HasTimeStamp = false;
 	
 	public PushoverMessage(String appToken, String userToken, String message) {
 		_Token = appToken;
