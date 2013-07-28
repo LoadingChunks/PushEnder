@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PushEnder extends JavaPlugin {
 	
-	private final PushEnderCommandExecutor commandExecutor = new PushEnderCommandExecutor(this);
+	private PushEnderCommandExecutor commandExecutor;
     
 	public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
@@ -27,9 +27,11 @@ public class PushEnder extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		
 		saveConfig();
+		reloadConfig();
 
 		Pushover messageSender = new Pushover(this);
         getServer().getPluginManager().registerEvents(new PushEnderEventListener(this, messageSender), this);
+        commandExecutor = new PushEnderCommandExecutor(this, messageSender);
         
 		getCommand("pushender").setExecutor(commandExecutor);
 	}
@@ -43,6 +45,7 @@ public class PushEnder extends JavaPlugin {
     }
     
     public List<String> getUserTokens() {
+    	getLogger().info("Found User Tokens: " + getConfig().getStringList("pushover.usertokens").size());
     	return getConfig().getStringList("pushover.usertokens");
     }
 }

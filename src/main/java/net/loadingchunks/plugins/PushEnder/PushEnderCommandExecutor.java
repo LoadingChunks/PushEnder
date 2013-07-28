@@ -8,9 +8,11 @@ import org.bukkit.command.CommandSender;
 public class PushEnderCommandExecutor implements CommandExecutor {
 	
 	private PushEnder plugin;
+	private Pushover messageSender;
 	
-	public PushEnderCommandExecutor(PushEnder plugin) {
+	public PushEnderCommandExecutor(PushEnder plugin, Pushover messageSender) {
 		this.plugin = plugin;
+		this.messageSender = messageSender;
 	}
 
 	@Override
@@ -18,6 +20,7 @@ public class PushEnderCommandExecutor implements CommandExecutor {
 		if(command.getName().equalsIgnoreCase("pushender")) {
 			if(args.length == 1 && args[0].equalsIgnoreCase("reload") && (sender.isOp() || sender.hasPermission("pushender.reload"))) {
 				plugin.reloadConfig();
+				messageSender.ReloadTokens(plugin);
 				sender.sendMessage(ChatColor.GREEN + "Reloaded Config!");
 				return true;
 			}
