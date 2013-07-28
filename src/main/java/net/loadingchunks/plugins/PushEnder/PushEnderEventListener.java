@@ -22,6 +22,7 @@ public class PushEnderEventListener implements Listener {
 	private PushEnder plugin;
 	
 	public PushEnderEventListener(PushEnder plugin, Pushover messageSender) {
+		this.plugin = plugin;
 		mMessageSender = messageSender;
 		mKickedPlayers = new HashSet<String>(); 
 	}
