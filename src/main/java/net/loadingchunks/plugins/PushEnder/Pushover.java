@@ -6,15 +6,17 @@ import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
 import net.pushover.client.Status;
 
+
 public class Pushover {
 	
 	private String mAppToken;
 	private PushEnder plugin;
-	private PushoverClient pClient = new PushoverRestClient();
+	private PushoverClient pClient;
 	
 	public Pushover(PushEnder host) {
 		this.plugin = host;
     	ReloadTokens(host);
+    	pClient = new PushoverRestClient();
 	}
 	
 	public void ReloadTokens(PushEnder host) {
