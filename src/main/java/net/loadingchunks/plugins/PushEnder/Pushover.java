@@ -4,6 +4,7 @@ import net.pushover.client.PushoverClient;
 import net.pushover.client.PushoverException;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
+import net.pushover.client.Status;
 
 public class Pushover {
 	
@@ -23,10 +24,11 @@ public class Pushover {
 	public void SendMessages(String message) {
     	for (PushUser user : plugin.getUsers()) {
     		try {
-				pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
+				Status result = pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
 						.setUserId(user.userToken)
 						.setMessage(message)
 						.build());
+				plugin.getLogger().info(String.format("status: %d, request id: %s", result.getStatus(), result.getRequestId()));
 			} catch (PushoverException e) {
 				e.printStackTrace();
 			}
@@ -36,11 +38,12 @@ public class Pushover {
 	public void SendMessages(String title, String message) {
     	for (PushUser user : plugin.getUsers()) {
     		try {
-				pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
+				Status result = pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
 						.setUserId(user.userToken)
 						.setMessage(message)
 						.setTitle(title)
 						.build());
+				plugin.getLogger().info(String.format("status: %d, request id: %s", result.getStatus(), result.getRequestId()));
 			} catch (PushoverException e) {
 				e.printStackTrace();
 			}
@@ -51,11 +54,12 @@ public class Pushover {
     	for (PushUser user : plugin.getUsers()) {
     		if(user.eventConfig.containsKey(type.toString()) && user.eventConfig.get(type.toString())) {
     	    	try {
-					pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
+					Status result = pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
 							.setUserId(user.userToken)
 							.setMessage(message)
 							.setTitle(title)
 							.build());
+					plugin.getLogger().info(String.format("status: %d, request id: %s", result.getStatus(), result.getRequestId()));
 				} catch (PushoverException e) {
 					e.printStackTrace();
 				}
