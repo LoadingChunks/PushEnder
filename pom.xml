@@ -25,6 +25,13 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.sps.pushover.net</groupId>
+            <artifactId>pushover-client</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -37,6 +44,27 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-shade-plugin</artifactId>
+                 <version>1.4</version>
+                 <executions>
+                     <execution>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>shade</goal>
+                         </goals>
+                         <configuration>
+                             <artifactSet>
+                                 <includes>
+                                     <include>com.github.sps.pushover.net:pushover-client</include>
+                                 </includes>
+                             </artifactSet>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
 		</plugins>
 	</build>
 	<repositories>

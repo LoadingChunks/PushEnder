@@ -1,9 +1,15 @@
 package net.loadingchunks.plugins.PushEnder;
 
+import net.pushover.client.PushoverClient;
+import net.pushover.client.PushoverException;
+import net.pushover.client.PushoverMessage;
+import net.pushover.client.PushoverRestClient;
+
 public class Pushover {
 	
 	private String mAppToken;
 	private PushEnder plugin;
+	private PushoverClient pClient = new PushoverRestClient();
 	
 	public Pushover(PushEnder host) {
 		this.plugin = host;
@@ -16,25 +22,43 @@ public class Pushover {
 	
 	public void SendMessages(String message) {
     	for (PushUser user : plugin.getUsers()) {
-    		PushoverMessage msg = new PushoverMessage(mAppToken, user.userToken, message);
-    		msg.push();
+    		try {
+				pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
+						.setUserId(user.userToken)
+						.setMessage(message)
+						.build());
+			} catch (PushoverException e) {
+				e.printStackTrace();
+			}
     	}
 	}
 	
 	public void SendMessages(String title, String message) {
     	for (PushUser user : plugin.getUsers()) {
-    		PushoverMessage msg = new PushoverMessage(mAppToken, user.userToken, message);
-    		msg.setTitle(title);
-    		msg.push();
+    		try {
+				pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
+						.setUserId(user.userToken)
+						.setMessage(message)
+						.setTitle(title)
+						.build());
+			} catch (PushoverException e) {
+				e.printStackTrace();
+			}
     	}
 	}
 	
 	public void SendMessages(String title, String message, PushType type) {
     	for (PushUser user : plugin.getUsers()) {
     		if(user.eventConfig.containsKey(type.toString()) && user.eventConfig.get(type.toString())) {
-    			PushoverMessage msg = new PushoverMessage(mAppToken, user.userToken, message);
-    			msg.setTitle(title);
-    			msg.push();
+    	    	try {
+					pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
+							.setUserId(user.userToken)
+							.setMessage(message)
+							.setTitle(title)
+							.build());
+				} catch (PushoverException e) {
+					e.printStackTrace();
+				}
     		}
     	}		
 	}
