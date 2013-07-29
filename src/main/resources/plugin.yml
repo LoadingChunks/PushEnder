@@ -1,7 +1,10 @@
 name: PushEnder
 main: net.loadingchunks.plugins.PushEnder.PushEnder
-version: 0.2
+version: 0.3
 commands:
    pushender:
       description: Manage PushEnder
       usage: /pushender reload
+   callstaff:
+      description: Alerts staff (online or offline) that you need assistance.
+      usage: /<command> <message>
