@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PushEnder extends JavaPlugin {
 	
 	private PushEnderCommandExecutor commandExecutor;
+	public boolean isDebug = false;
     
 	public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
@@ -26,6 +27,8 @@ public class PushEnder extends JavaPlugin {
 		Pushover messageSender = new Pushover(this);
         getServer().getPluginManager().registerEvents(new PushEnderEventListener(this, messageSender), this);
         commandExecutor = new PushEnderCommandExecutor(this, messageSender);
+        
+        isDebug = getConfig().getBoolean("debug");
         
 		getCommand("pushender").setExecutor(commandExecutor);
 		getCommand("callstaff").setExecutor(commandExecutor);
@@ -45,7 +48,13 @@ public class PushEnder extends JavaPlugin {
     	List<PushUser> returnArr = new ArrayList<PushUser>();
     	
     	for(String user : users.getKeys(false)) {
+    		if(isDebug)
+    			getLogger().info("Processing " + user);
+
     		returnArr.add(new PushUser(user, getConfig().getConfigurationSection("pushover.users." + user)));
+
+    		if(isDebug)
+    			getLogger().info("Got " + returnArr.get(returnArr.size()-1).eventConfig.size() + " events");
     	}
     	
     	return returnArr;
