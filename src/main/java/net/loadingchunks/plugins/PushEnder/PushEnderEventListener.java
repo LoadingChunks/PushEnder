@@ -1,8 +1,8 @@
 package net.loadingchunks.plugins.PushEnder;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
@@ -29,16 +29,12 @@ public class PushEnderEventListener implements Listener {
 	
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-    	if(plugin.getConfig().getBoolean("events.join"))
-    		mMessageSender.SendMessages("Player joined", ChatColor.stripColor(event.getPlayer().getDisplayName()) + " joined the game.");
+    	mMessageSender.SendMessages("Player joined", ChatColor.stripColor(event.getPlayer().getDisplayName()) + " joined the game.", PushType.JOIN);
     }
     
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
-    	if(!plugin.getConfig().getBoolean("events.kick"))
-    		return;
-    	
-    	mMessageSender.SendMessages(ChatColor.stripColor(event.getPlayer().getName()) + " was kicked", "`" + ChatColor.stripColor(event.getReason()) + "`");
+    	mMessageSender.SendMessages(ChatColor.stripColor(event.getPlayer().getName()) + " was kicked", "`" + ChatColor.stripColor(event.getReason()) + "`", PushType.KICK);
     	mKickedPlayers.add(event.getPlayer().getName());
     }
 	
@@ -48,30 +44,25 @@ public class PushEnderEventListener implements Listener {
     		mKickedPlayers.remove(event.getPlayer().getName());
     	}
     	else {
-        	if(plugin.getConfig().getBoolean("events.quit"))
-        		mMessageSender.SendMessages("Player quit", ChatColor.stripColor(event.getPlayer().getDisplayName()) + " left the game.");
+        	mMessageSender.SendMessages("Player quit", ChatColor.stripColor(event.getPlayer().getDisplayName()) + " left the game.", PushType.QUIT);
     	}
     }
     
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-    	List<Short> bossEntities = new ArrayList<Short>();
+    	HashMap<Short, PushType> bossEntities = new HashMap<Short, PushType>();
     	
-    	if(plugin.getConfig().getBoolean("events.dragonKill"))
-    		bossEntities.add(EntityType.ENDER_DRAGON.getTypeId());
-    	
-    	if(plugin.getConfig().getBoolean("events.witherKill"))
-    		bossEntities.add(EntityType.WITHER.getTypeId());
-    	
-    	if(bossEntities.size() == 0)
-    		return; // No alerts here.
-    	
+    	bossEntities.put(EntityType.ENDER_DRAGON.getTypeId(), PushType.ENDER_DRAGON);
+    	bossEntities.put(EntityType.WITHER.getTypeId(), PushType.WITHER);
+
     	Player killer = event.getEntity().getKiller();
     	
-    	for (int i = 0; i < bossEntities.size(); i++) {
-    		if (bossEntities.get(i).equals(event.getEntityType().getTypeId())) {
-    			if (killer != null)
-    				mMessageSender.SendMessages("Boss killed", "The " + event.getEntityType().getName() + " was killed by " + ChatColor.stripColor(event.getEntity().getKiller().getDisplayName()) + "!");
+    	if(killer == null)
+    		return;
+    	
+    	for(Entry<Short, PushType> set : bossEntities.entrySet()) {
+    		if(set.getKey().equals(event.getEntityType().getTypeId())) {
+    			mMessageSender.SendMessages("Boss killed", "The " + event.getEntityType().getName() + " was killed by " + ChatColor.stripColor(event.getEntity().getKiller().getDisplayName()) + "!", set.getValue());
     		}
     	}
     }

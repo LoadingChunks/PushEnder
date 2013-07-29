@@ -3,6 +3,7 @@ package net.loadingchunks.plugins.PushEnder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,14 +16,7 @@ public class PushEnder extends JavaPlugin {
         getLogger().info("Loading " + pdfFile.getName() + " version " + pdfFile.getVersion() + "..." );
 		
 		getConfig().addDefault("pushover.apptoken", "");
-		getConfig().addDefault("pushover.usertokens", new ArrayList<String>());
-		getConfig().addDefault("events.witherKill", true);
-		getConfig().addDefault("events.dragonKill", true);
-		getConfig().addDefault("events.join", false);
-		getConfig().addDefault("events.quit", false);
-		getConfig().addDefault("events.ban", true);
-		getConfig().addDefault("events.kick", true);
-		getConfig().addDefault("events.callAdmin", true); // Coming Soon :V
+		getConfig().addDefault("pushover.users", null);
 		
 		getConfig().options().copyDefaults(true);
 		
@@ -44,8 +38,15 @@ public class PushEnder extends JavaPlugin {
     	return getConfig().getString("pushover.apptoken");
     }
     
-    public List<String> getUserTokens() {
-    	getLogger().info("Found User Tokens: " + getConfig().getStringList("pushover.usertokens").size());
-    	return getConfig().getStringList("pushover.usertokens");
+    public List<PushUser> getUsers() {
+    	ConfigurationSection users = getConfig().getConfigurationSection("pushover.users");
+    	
+    	List<PushUser> returnArr = new ArrayList<PushUser>();
+    	
+    	for(String user : users.getKeys(false)) {
+    		returnArr.add(new PushUser(user, getConfig().getConfigurationSection("pushover.users." + user)));
+    	}
+    	
+    	return returnArr;
     }
 }
