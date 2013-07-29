@@ -32,6 +32,13 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.3</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -59,6 +66,7 @@
                              <artifactSet>
                                  <includes>
                                      <include>com.github.sps.pushover.net:pushover-client</include>
+                                     <include>org.apache.httpcomponents:httpclient</include>
                                  </includes>
                              </artifactSet>
                          </configuration>
