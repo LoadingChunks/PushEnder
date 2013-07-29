@@ -37,6 +37,7 @@ public class PushEnderCommandExecutor implements CommandExecutor {
 						if(p.hasPermission("pushender.notify")) {
 							p.sendMessage(ChatColor.YELLOW + "CALLSTAFF ALERT: " + ChatColor.stripColor(((Player)sender).getDisplayName()) + ": " + StringUtils.join(args));
 						}
+					}
 					sender.sendMessage(ChatColor.GREEN + "Thank you, if a member of staff is able to come online they will be along to assist you shortly.");
 					return true;
 				} else {
