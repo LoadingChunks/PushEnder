@@ -31,15 +31,14 @@ public class PushEnderCommandExecutor implements CommandExecutor {
 		if(command.getName().equalsIgnoreCase("callstaff")) {
 			if(sender.hasPermission("pushender.callstaff") && sender instanceof Player) {
 				if(args.length > 0) {
-					messageSender.SendMessages(((Player)sender).getDisplayName() + " needs help!", StringUtils.join(args), PushType.CALL_STAFF);
+					messageSender.SendMessages(ChatColor.stripColor(((Player)sender).getDisplayName()) + " needs help!", ChatColor.stripColor(StringUtils.join(args)), PushType.CALL_STAFF);
 					
 					for(Player p : plugin.getServer().getOnlinePlayers()) {
 						if(p.hasPermission("pushender.notify")) {
-							p.sendMessage(ChatColor.YELLOW + "CALLSTAFF ALERT: " + ((Player)sender).getDisplayName() + ": " + StringUtils.join(args));
+							p.sendMessage(ChatColor.YELLOW + "CALLSTAFF ALERT: " + ChatColor.stripColor(((Player)sender).getDisplayName()) + ": " + StringUtils.join(args));
 						}
-					}
-					
 					sender.sendMessage(ChatColor.GREEN + "Thank you, if a member of staff is able to come online they will be along to assist you shortly.");
+					return true;
 				} else {
 					sender.sendMessage(ChatColor.RED + "Please enter a message to send to staff.");
 					return false;
