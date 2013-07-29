@@ -28,6 +28,7 @@ public class PushEnder extends JavaPlugin {
         commandExecutor = new PushEnderCommandExecutor(this, messageSender);
         
 		getCommand("pushender").setExecutor(commandExecutor);
+		getCommand("callstaff").setExecutor(commandExecutor);
 	}
 
     public void onDisable() {
