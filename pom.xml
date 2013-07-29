@@ -4,7 +4,7 @@
 	<groupId>net.LoadingChunks</groupId>
 	<artifactId>PushEnder</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2</version>
+	<version>0.8</version>
 	<name>PushEnder</name>
 	<url>http://maven.apache.org</url>
 	<properties>
