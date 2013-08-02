@@ -1,22 +1,19 @@
 package net.loadingchunks.plugins.PushEnder;
 
-import net.pushover.client.PushoverClient;
-import net.pushover.client.PushoverException;
-import net.pushover.client.PushoverMessage;
-import net.pushover.client.PushoverRestClient;
-import net.pushover.client.Status;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import com.omertron.pushoverapi.PushoverApi;
 
 
 public class Pushover {
 	
 	private String mAppToken;
 	private PushEnder plugin;
-	private PushoverClient pClient;
 	
 	public Pushover(PushEnder host) {
 		this.plugin = host;
     	ReloadTokens(host);
-    	pClient = new PushoverRestClient();
 	}
 	
 	public void ReloadTokens(PushEnder host) {
@@ -25,13 +22,13 @@ public class Pushover {
 	
 	public void SendMessages(String message) {
     	for (PushUser user : plugin.getUsers()) {
-    		try {
-				Status result = pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
-						.setUserId(user.userToken)
-						.setMessage(message)
-						.build());
-				plugin.getLogger().info(String.format("status: %d, request id: %s", result.getStatus(), result.getRequestId()));
-			} catch (PushoverException e) {
+			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
+			
+			try {
+				plugin.getLogger().info("Push: " + client.sendMessage(message));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
     	}
@@ -39,14 +36,13 @@ public class Pushover {
 	
 	public void SendMessages(String title, String message) {
     	for (PushUser user : plugin.getUsers()) {
-    		try {
-				Status result = pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
-						.setUserId(user.userToken)
-						.setMessage(message)
-						.setTitle(title)
-						.build());
-				plugin.getLogger().info(String.format("status: %d, request id: %s", result.getStatus(), result.getRequestId()));
-			} catch (PushoverException e) {
+			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
+
+			try {
+				plugin.getLogger().info("Push: " + client.sendMessage(message, title));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
     	}
@@ -55,16 +51,14 @@ public class Pushover {
 	public void SendMessages(String title, String message, PushType type) {
     	for (PushUser user : plugin.getUsers()) {
     		if(user.eventConfig.containsKey(type.toString()) && user.eventConfig.get(type.toString())) {
-    	    	try {
-					Status result = pClient.pushMessage(PushoverMessage.builderWithApiToken(mAppToken)
-							.setUserId(user.userToken)
-							.setMessage(message)
-							.setTitle(title)
-							.build());
-					plugin.getLogger().info(String.format("status: %d, request id: %s", result.getStatus(), result.getRequestId()));
-				} catch (PushoverException e) {
-					e.printStackTrace();
-				}
+    			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
+    			try {
+    				plugin.getLogger().info("Push: " + client.sendMessage(message, title));
+    			} catch (UnsupportedEncodingException e) {
+    				e.printStackTrace();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
     		}
     	}		
 	}
