@@ -25,7 +25,7 @@ public class Pushover {
 	public void SendMessages(String message) {
     	for (PushUser user : plugin.getUsers()) {
 			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
-			
+			client.isDebug = plugin.isDebug;
 			try {
 				plugin.getLogger().info("Push: " + client.sendMessage(ChatColor.stripColor(message)));
 			} catch (UnsupportedEncodingException e) {
@@ -39,7 +39,7 @@ public class Pushover {
 	public void SendMessages(String title, String message) {
     	for (PushUser user : plugin.getUsers()) {
 			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
-
+			client.isDebug = plugin.isDebug;
 			try {
 				plugin.getLogger().info("Push: " + client.sendMessage(ChatColor.stripColor(message), ChatColor.stripColor(title)));
 			} catch (UnsupportedEncodingException e) {
@@ -54,6 +54,7 @@ public class Pushover {
     	for (PushUser user : plugin.getUsers()) {
     		if(user.eventConfig.containsKey(type.toString()) && user.eventConfig.get(type.toString())) {
     			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
+    			client.isDebug = plugin.isDebug;
     			try {
     				plugin.getLogger().info("Push: " + client.sendMessage(ChatColor.stripColor(message), ChatColor.stripColor(title)));
     			} catch (UnsupportedEncodingException e) {
