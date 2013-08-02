@@ -58,7 +58,7 @@
                          <configuration>
                              <artifactSet>
                                  <includes>
-                                     <include>com.github.sps.pushover.net:pushover-client</include>
+                                     <include>com.omertron:apiPushover</include>
                                  </includes>
                              </artifactSet>
                          </configuration>
