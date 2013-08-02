@@ -23,7 +23,7 @@ public class Pushover {
 	}
 	
 	public void SendMessages(String message) {
-    	for (PushUser user : plugin.getUsers()) {
+    	for (PushUser user : plugin.getUsers(false)) {
 			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
 			client.isDebug = plugin.isDebug;
 			try {
@@ -37,7 +37,7 @@ public class Pushover {
 	}
 	
 	public void SendMessages(String title, String message) {
-    	for (PushUser user : plugin.getUsers()) {
+    	for (PushUser user : plugin.getUsers(false)) {
 			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
 			client.isDebug = plugin.isDebug;
 			try {
@@ -51,7 +51,7 @@ public class Pushover {
 	}
 	
 	public void SendMessages(String title, String message, PushType type) {
-    	for (PushUser user : plugin.getUsers()) {
+    	for (PushUser user : plugin.getUsers(false)) {
     		if(user.eventConfig.containsKey(type.toString()) && user.eventConfig.get(type.toString())) {
     			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
     			client.isDebug = plugin.isDebug;
