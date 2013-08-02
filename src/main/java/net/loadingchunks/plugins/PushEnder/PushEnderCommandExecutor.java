@@ -40,11 +40,11 @@ public class PushEnderCommandExecutor implements CommandExecutor {
 				}
 				
 				if(args.length > 0) {
-					messageSender.SendMessages(ChatColor.stripColor(((Player)sender).getDisplayName()) + " needs help!", ChatColor.stripColor(StringUtils.join(args)), PushType.CALL_STAFF);
+					messageSender.SendMessages(ChatColor.stripColor(((Player)sender).getDisplayName()) + " needs help!", ChatColor.stripColor(StringUtils.join(args, " ")), PushType.CALL_STAFF);
 					
 					for(Player p : plugin.getServer().getOnlinePlayers()) {
 						if(p.hasPermission("pushender.notify")) {
-							p.sendMessage(ChatColor.YELLOW + "CALLSTAFF ALERT: " + ChatColor.stripColor(((Player)sender).getDisplayName()) + ": " + StringUtils.join(args));
+							p.sendMessage(ChatColor.YELLOW + "CALLSTAFF ALERT: " + ChatColor.stripColor(((Player)sender).getDisplayName()) + ": " + StringUtils.join(args, " "));
 						}
 					}
 					sender.sendMessage(ChatColor.GREEN + "Thank you, if a member of staff is able to come online they will be along to assist you shortly.");
