@@ -19,6 +19,7 @@ public class PushEnder extends JavaPlugin {
 		
 		getConfig().addDefault("pushover.apptoken", "");
 		getConfig().addDefault("pushover.users", null);
+		getConfig().addDefault("pushover.cooldowns.callstaff", 30);
 		
 		getConfig().options().copyDefaults(true);
 		
