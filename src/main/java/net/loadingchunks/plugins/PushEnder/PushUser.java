@@ -10,8 +10,8 @@ public class PushUser {
 	public HashMap<String, Boolean> eventConfig = new HashMap<String, Boolean>();
 	
 	public PushUser(String name, ConfigurationSection cs) {
-		if(cs.contains("userToken"))
-			userToken = cs.getString("userToken");
+		if(cs.contains("token"))
+			userToken = cs.getString("token");
 		
 		if(!cs.contains("events"))
 			return;
