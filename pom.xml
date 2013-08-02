@@ -25,27 +25,6 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.omertron</groupId>
-            <artifactId>apiPushover</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency> 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>1.7.5</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -72,9 +51,6 @@
                          <configuration>
                              <artifactSet>
                                  <includes>
-                                     <include>com.omertron:apiPushover</include>
-                                     <include>org.slf4j:slf4j-jdk14</include>
-                                     <include>org.slf4j:slf4j-api</include>
                                  </includes>
                              </artifactSet>
                          </configuration>
@@ -88,9 +64,5 @@
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public</url>
 		</repository>
-        <repository>
-            <id>lc-repo</id>
-            <url>https://ci.loadingchunks.net/plugin/repository/everything/</url>
-        </repository>
 	</repositories>
 </project>
