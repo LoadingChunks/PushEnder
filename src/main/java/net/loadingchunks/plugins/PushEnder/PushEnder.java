@@ -11,6 +11,7 @@ public class PushEnder extends JavaPlugin {
 	
 	private PushEnderCommandExecutor commandExecutor;
 	public boolean isDebug = false;
+	public List<PushUser> userArr = new ArrayList<PushUser>();
     
 	public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
@@ -42,21 +43,35 @@ public class PushEnder extends JavaPlugin {
     	return getConfig().getString("pushover.apptoken");
     }
     
-    public List<PushUser> getUsers() {
-    	ConfigurationSection users = getConfig().getConfigurationSection("pushover.users");
-    	
-    	List<PushUser> returnArr = new ArrayList<PushUser>();
-    	
-    	for(String user : users.getKeys(false)) {
-    		if(isDebug)
-    			getLogger().info("Processing " + user);
+    @Override
+    public void reloadConfig() {
+    	super.reloadConfig();
+    	getUsers(true);
+    }
 
-    		returnArr.add(new PushUser(user, getConfig().getConfigurationSection("pushover.users." + user)));
-
-    		if(isDebug)
-    			getLogger().info("Got " + returnArr.get(returnArr.size()-1).eventConfig.size() + " events");
+    public List<PushUser> getUsers(boolean clearCache) {
+    	
+    	if(clearCache) {
+    		userArr.clear();
+        	ConfigurationSection users = getConfig().getConfigurationSection("pushover.users");
+	    	for(String user : users.getKeys(false)) {
+	    		if(isDebug)
+	    			getLogger().info("Processing " + user);
+	    		
+	    		PushUser tmpuser = new PushUser(user, getConfig().getConfigurationSection("pushover.users." + user));
+	    		
+	    		if(tmpuser.userToken.length() > 1)
+	    			userArr.add(tmpuser);
+	    		else {
+	    			getLogger().warning("User " + user + " does not have a valid token!");
+	    			continue;
+	    		}
+	
+	    		if(isDebug)
+	    			getLogger().info("Got " + userArr.get(userArr.size()-1).eventConfig.size() + " events");
+	    	}
     	}
     	
-    	return returnArr;
+    	return userArr;
     }
 }
