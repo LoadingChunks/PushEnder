@@ -3,6 +3,8 @@ package net.loadingchunks.plugins.PushEnder;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import org.bukkit.ChatColor;
+
 import com.omertron.pushoverapi.PushoverApi;
 
 
@@ -25,7 +27,7 @@ public class Pushover {
 			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
 			
 			try {
-				plugin.getLogger().info("Push: " + client.sendMessage(message));
+				plugin.getLogger().info("Push: " + client.sendMessage(ChatColor.stripColor(message)));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -39,7 +41,7 @@ public class Pushover {
 			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
 
 			try {
-				plugin.getLogger().info("Push: " + client.sendMessage(message, title));
+				plugin.getLogger().info("Push: " + client.sendMessage(ChatColor.stripColor(message), ChatColor.stripColor(title)));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -53,7 +55,7 @@ public class Pushover {
     		if(user.eventConfig.containsKey(type.toString()) && user.eventConfig.get(type.toString())) {
     			PushoverApi client = new PushoverApi(mAppToken, user.userToken);
     			try {
-    				plugin.getLogger().info("Push: " + client.sendMessage(message, title));
+    				plugin.getLogger().info("Push: " + client.sendMessage(ChatColor.stripColor(message), ChatColor.stripColor(title)));
     			} catch (UnsupportedEncodingException e) {
     				e.printStackTrace();
     			} catch (IOException e) {
